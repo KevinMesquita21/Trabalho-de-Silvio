@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Assistente Virtual - TechStore</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .chat-container {
+            background-color: #1e2a38;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #00d4ff;
+        }
+
+        #chat {
+            flex-grow: 1;
+            overflow-y: auto;
+            height: 400px;
+            padding-right: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #00d4ff44;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: #121a24;
+        }
+
+        .message {
+            margin: 5px 0;
+            line-height: 1.4;
+        }
+
+        .user {
+            color: #00ffe1;
+        }
+
+        .bot {
+            color: #ffffff;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #00d4ff;
+            color: #000;
+            border: none;
+            padding: 10px 15px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #00a0cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h1>Assistente TechStore</h1>
+        <div id="chat"></div>
+        <div class="input-area">
+            <input id="input" type="text" placeholder="Digite sua mensagem..." />
+            <button onclick="enviar()">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        function enviar() {
+            const inputField = document.getElementById('input');
+            const message = inputField.value.trim();
+            if (!message) return;
+
+            const chatDiv = document.getElementById("chat");
+            chatDiv.innerHTML += `<div class="message user"><strong>Você:</strong> ${message}</div>`;
+
+            fetch("/chat", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({message: message})
+            })
+            .then(response => response.json())
+            .then(data => {
+                chatDiv.innerHTML += `<div class="message bot"><strong>Bot:</strong> ${data.response}</div>`;
+                chatDiv.scrollTop = chatDiv.scrollHeight;
+            });
+
+            inputField.value = "";
+        }
+
+        document.getElementById('input').addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                enviar();
+            }
+        });
+
+        // Mensagem de boas-vindas automática para o usuario
+        window.onload = function() {
+            const chatDiv = document.getElementById("chat");
+            chatDiv.innerHTML += `
+                <div class="message bot">
+                    <strong>Bot:</strong> Olá! 👋 Eu sou o assistente virtual da <strong>TechStore</strong>.<br>
+                    Posso te ajudar com dúvidas sobre <em>pagamentos</em>, <em>garantia</em>, <em>prazo de entrega</em>, 
+                    <em>atendimento</em> ou recomendar <em>produtos</em> como <strong>smartphones</strong>, 
+                    <strong>notebooks</strong> e <strong>fones</strong>.<br>
+                    Como posso te ajudar hoje?
+                </div>
+            `;
+        };
+    </script>
+</body>
+</html>
