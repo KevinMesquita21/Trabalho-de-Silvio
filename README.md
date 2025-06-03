@@ -87,17 +87,6 @@ Esses são alguns dos nossos notebooks mais populares:
 
 ---
 
-## 📌 Melhorias Futuras
-
-- Integração com API de produtos reais
-- Aprendizado contínuo com feedback do usuário
-- Análise de sentimento com IA
-- Interface mais interativa com animações
-
----
-
----
-
 ## 📝 Licença
 
 Este projeto está licenciado sob a [MIT License](LICENSE).
