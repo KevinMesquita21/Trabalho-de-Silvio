@@ -96,12 +96,6 @@ Esses são alguns dos nossos notebooks mais populares:
 
 ---
 
-## 👨‍💻 Autor
-
-Desenvolvido por [Seu Nome] – Estudante de Programação  
-📫 Contato: [seu-email@email.com]  
-🎲 Hobbies: Codar, RPG, D&D 5e
-
 ---
 
 ## 📝 Licença
